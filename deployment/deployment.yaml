@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tytanis
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tytanis
+    spec:
+      containers:
+        - image: eu.gcr.io/bigdata-1275/tytanis:1.0-SNAPSHOT
+          command: ["bin/tytanis", "-Dconfig.file=/etc/tytanis/application.conf"]
+          name: tytanis
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 9000
+          name: tytanis
+          volumeMounts:
+          - name: tytanis-persistent-storage
+            mountPath: /var/lib/tytanis/db
+          - name: config-volume
+            mountPath: /etc/tytanis
+      nodeSelector:
+                  failure-domain.beta.kubernetes.io/zone: europe-west1-d
+      volumes:
+         - name: tytanis-persistent-storage
+           persistentVolumeClaim:
+              claimName: tytanis-pv-claim
+         - name: config-volume
+           configMap:
+              name: tytanis-config
