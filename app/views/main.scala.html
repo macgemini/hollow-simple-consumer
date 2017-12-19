@@ -70,7 +70,7 @@
                             name: 'tilda',
                             height: 600,
                             enabled: false,
-                            greetings: 'Simulations console',
+                            greetings: 'Events console',
                             keypress: function(e) {
                                 if (e.which == 96) {
                                     return false;
@@ -141,18 +141,18 @@
                     var ws = new WebSocket(url + "command");
 
 
-                    var stream = function(jobId) {
+                    var stream = function() {
                         var ss = new WebSocket(url + "stream/" + jobId);
 
                         function appendMessage(text) {
                             var messageElem = document.createElement("p");
                             var message = document.createTextNode(text);
                             messageElem.appendChild(message);
-                            document.getElementById("output").appendChild(messageElem);
+                            document.getElementById("output").innerHTML = messageElem;
                         }
 
                         ss.onopen = function() {
-                            appendMessage("JobId: " + jobId + ", Stream of messages opened...");
+                            appendMessage("Stream of messages opened...");
                             ss.send("hi");
                         };
 
@@ -161,7 +161,7 @@
                         };
 
                         ss.onclose = function() {
-                            appendMessage("JobId: " + jobId + ", Stream of messages closed...");
+                            appendMessage("Stream of messages closed...");
                             queue.clear()
                         };
                     };
@@ -174,7 +174,7 @@
                         ws.onmessage = function (evt) {
                             var received_msg = evt.data;
                             if(received_msg.includes("attachjobpacket")) {
-                                stream(received_msg.split(" ")[1]);
+                                stream();
                             } else {
                                 terminal.echo(received_msg);
                             }
@@ -185,7 +185,7 @@
                         };
 
                         if(command.includes("attachJob")) {
-                            stream(command.split(" ")[1]);
+                            stream();
                         } else {
                             ws.send(command);
                         }
