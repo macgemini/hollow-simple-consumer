@@ -1,6 +1,6 @@
 package actors
 
-import actors.commands.jobs.AttachJob
+import actors.commands.events.AttachEvents
 import akka.actor.Actor.Receive
 import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 
@@ -13,7 +13,7 @@ class CommandActor(out: ActorRef, orchestrationActor: ActorRef) extends Actor wi
     case o: OutputMessage => {
       out ! o.meassage
     }
-    case aj: AttachJob => out ! aj.toString()
+    case aj: AttachEvents => out ! aj.toString()
   }
 }
 

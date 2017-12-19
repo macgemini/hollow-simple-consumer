@@ -9,7 +9,7 @@ import commons.LookupBusImpl
 import play.api.mvc._
 import play.api.libs.streams._
 
-class SimulationsController @Inject() (implicit system: ActorSystem, materializer: Materializer, @Named("OrchestrationActor") orchestrationActor: ActorRef, eventBus: LookupBusImpl) extends Controller {
+class EventsController @Inject()(implicit system: ActorSystem, materializer: Materializer, @Named("OrchestrationActor") orchestrationActor: ActorRef, eventBus: LookupBusImpl) extends Controller {
 
   def index = Action {
     Ok(views.html.index("Simulation Controller"))
