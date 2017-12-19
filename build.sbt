@@ -22,4 +22,6 @@ libraryDependencies ++= Seq(
 libraryDependencies += "com.netflix.hollow" % "hollow-ui-tools" % "2.6.8"
 libraryDependencies += "com.netflix.hollow" % "hollow-explorer-ui" % "2.6.8"
 libraryDependencies += "com.netflix.hollow" % "hollow-diff-ui" % "2.6.8"
+libraryDependencies += "org.eclipse.jetty" % "jetty-server" % "9.4.0.M0"
+
 

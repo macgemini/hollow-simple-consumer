@@ -19,7 +19,7 @@ class EventsController @Inject()(implicit system: ActorSystem, materializer: Mat
     ActorFlow.actorRef(out => CommandActor.props(out,orchestrationActor))
   }
 
-  def stream(jobId: String) = WebSocket.accept[String,String] { request =>
+  def stream = WebSocket.accept[String,String] { request =>
     ActorFlow.actorRef(out => EventStreamActor.props(out,eventBus))
   }
 }

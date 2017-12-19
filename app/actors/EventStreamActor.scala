@@ -9,7 +9,7 @@ import commons.{LookupBusImpl, MsgEnvelope}
   */
 class EventStreamActor(out: ActorRef, eventBus: LookupBusImpl) extends Actor with ActorLogging {
 
-  val subscription = eventBus.subscribe(self,"attacheventspacket")
+  val subscription = eventBus.subscribe(self,"events")
 
   override def receive: Receive = {
     case msg: String => {

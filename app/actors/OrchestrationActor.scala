@@ -4,27 +4,30 @@ import javax.inject.Inject
 
 import actors.commands.{BaseCommand, UnknownCommand}
 import akka.actor.Actor.Receive
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 import actors.commands._
 import actors.commands.events._
 import actors.commands.events._
 import akka.event.japi.LookupEventBus
 import commons.LookupBusImpl
 import play.api.libs.json._
+
 import scala.util.{Failure, Success, Try}
 
 /**
   * Created by mac on 24.02.17.
   */
-class OrchestrationActor @Inject() (eventBus: LookupBusImpl) extends Actor with ActorLogging {
+class OrchestrationActor @Inject() (implicit system: ActorSystem, eventBus: LookupBusImpl) extends Actor with ActorLogging {
 
   val helpActor = context.actorOf(Props[HelpActor],"HelpActor")
-  val eventsActor = context.actorOf(Props(new EventsActor(eventBus)), "EventsActor")
+  val eventsActor = context.actorOf(Props(new EventsActor(eventBus,system)), "EventsActor")
 
   override def receive: Receive = {
     case s: String =>
       parseCommand(s) match {
-        case command: EventsCommand => eventsActor forward command
+        case command: EventsCommand => {
+          eventsActor forward command
+        }
         case command: GetHelp => helpActor forward command
         case command: UnknownCommand => sender() ! OutputMessage(command.message)
       }
@@ -40,7 +43,9 @@ class OrchestrationActor @Inject() (eventBus: LookupBusImpl) extends Actor with 
     val command: BaseCommand = commandString match {
       case "getHelp" => new GetHelp
       case "runEvents" => params match {
-        case Nil => new RunEvents
+        case Nil => {
+          new RunEvents
+        }
         case _ => UnknownCommand(s"Wrong list of params for a command: $commandString")
       }
       case "killEvents" => params match {

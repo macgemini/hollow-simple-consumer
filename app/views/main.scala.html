@@ -142,7 +142,7 @@
 
 
                     var stream = function() {
-                        var ss = new WebSocket(url + "stream/" + jobId);
+                        var ss = new WebSocket(url + "stream");
 
                         function appendMessage(text) {
                             var messageElem = document.createElement("p");
@@ -173,7 +173,7 @@
 
                         ws.onmessage = function (evt) {
                             var received_msg = evt.data;
-                            if(received_msg.includes("attachjobpacket")) {
+                            if(received_msg.includes("attacheventspacket")) {
                                 stream();
                             } else {
                                 terminal.echo(received_msg);
@@ -184,7 +184,7 @@
                             terminal.echo("Connection is closed...");
                         };
 
-                        if(command.includes("attachJob")) {
+                        if(command.includes("attachEvents")) {
                             stream();
                         } else {
                             ws.send(command);
