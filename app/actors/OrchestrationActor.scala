@@ -7,11 +7,9 @@ import akka.actor.Actor.Receive
 import akka.actor.{Actor, ActorLogging, Props}
 import actors.commands._
 import actors.commands.events._
-import actors.commands.scenarios._
 import actors.commands.events._
 import akka.event.japi.LookupEventBus
 import commons.LookupBusImpl
-import services._
 import play.api.libs.json._
 import scala.util.{Failure, Success, Try}
 

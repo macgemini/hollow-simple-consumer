@@ -12,7 +12,7 @@ import play.api.libs.streams._
 class EventsController @Inject()(implicit system: ActorSystem, materializer: Materializer, @Named("OrchestrationActor") orchestrationActor: ActorRef, eventBus: LookupBusImpl) extends Controller {
 
   def index = Action {
-    Ok(views.html.index("Simulation Controller"))
+    Ok(views.html.index("Events Controller"))
   }
 
   def command = WebSocket.accept[String,String] { request =>
@@ -20,6 +20,6 @@ class EventsController @Inject()(implicit system: ActorSystem, materializer: Mat
   }
 
   def stream(jobId: String) = WebSocket.accept[String,String] { request =>
-    ActorFlow.actorRef(out => EventStreamActor.props(out,jobId,eventBus))
+    ActorFlow.actorRef(out => EventStreamActor.props(out,eventBus))
   }
 }
