@@ -16,6 +16,7 @@ class EventStreamActor(out: ActorRef, eventBus: LookupBusImpl) extends Actor wit
       val message = s"Message: ${msg}"
       out ! message
     }
+    case b => out ! b
   }
 }
 

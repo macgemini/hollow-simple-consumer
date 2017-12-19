@@ -148,7 +148,7 @@
                             var messageElem = document.createElement("p");
                             var message = document.createTextNode(text);
                             messageElem.appendChild(message);
-                            document.getElementById("output").innerHTML = messageElem;
+                            document.getElementById("output").appendChild(messageElem);
                         }
 
                         ss.onopen = function() {

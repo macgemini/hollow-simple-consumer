@@ -71,7 +71,7 @@ class EventsActor(eventBus: LookupBusImpl, actorSystem: ActorSystem) extends Act
       schedule = actorSystem.scheduler.schedule(1 second, 2 seconds) {
         consumer.triggerRefresh()
         val jsonTry = Try {
-          val res: JsValue = Json.toJson(alreadyAppliedAPI.getAllAlreadyApplied.stream().collect(Collectors.toList()).asScala.map(x => AlreadyAppliedContainer(x.getOfferId)))
+          val res = Json.stringify(Json.toJson(alreadyAppliedAPI.getAllAlreadyApplied.stream().collect(Collectors.toList()).asScala.map(x => AlreadyAppliedContainer(x.getOfferId))))
           res
         }
         val json = jsonTry match {
